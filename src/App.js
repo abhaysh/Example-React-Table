@@ -197,11 +197,12 @@ export default function App() {
       },
       {
         Header: "Date",
-        accessor: data => data.geometry[0].date,
+        accessor: data => new Date(data.geometry[0].date).toDateString(),
         sortType: (rowA, rowB, columnId) => {
-          return (
-            new Date(rowA.values[columnId]) - new Date(rowB.values[columnId])
-          );
+          const dateA = new Date(rowA.values[columnId]).getTime();
+          const dateB = new Date(rowB.values[columnId]).getTime();
+
+          return dateA === dateB ? 0 : dateA > dateB ? 1 : -1;
         }
       },
       {
